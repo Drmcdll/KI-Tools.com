@@ -410,8 +410,33 @@
 
       document.querySelector('.category-button[onclick="filterCategory(\'all\')"] .category-count').textContent = totalCount;
     }
-
     updateCategoryCounts();
+   
+    function addTool(event) {
+      event.preventDefault();
+
+      let toolName = document.getElementById('tool-name').value;
+      let toolCategory = document.getElementById('tool-category').value;
+      let toolDescription = document.getElementById('tool-description').value;
+      let toolFree = document.getElementById('tool-free').checked;
+
+      let toolHTML = `
+        <div class="tool ${toolCategory}">
+          <button class="like-button" onclick="incrementLikeCount(this)">&#10084;</button>
+          <span class="like-count">0</span>&nbsp;&nbsp;
+          ${toolName}
+          ${toolFree ? '<span class="free-tag">Kostenlos</span>' : ''}
+          <span class="tool-description">${toolDescription}</span>
+        </div>
+      `;
+
+      let categoryElement = document.querySelector(`.category.${toolCategory}`);
+      categoryElement.insertAdjacentHTML('beforeend', toolHTML);
+
+      document.getElementById('add-tool-form').reset();
+
+      updateCategoryCounts();
+    }
   </script>
 </body>
 </html>
