@@ -6,12 +6,27 @@
   <title>KI-Tools Suche</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #333;
+      color: white;
       padding: 20px;
+      text-align: center;
     }
     h1 {
-      text-align: center;  
+      margin: 0;
+      font-size: 2em;
+    }
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     input {
       width: 100%;
@@ -19,32 +34,42 @@
       margin: 8px 0;
       box-sizing: border-box;
       font-size: 18px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
     }
     .category {
       margin-bottom: 30px;  
     }
     .category h2 {
       margin-bottom: 10px;
+      color: #333;
     }
     .tool {
-      padding: 10px;
+      display: flex;
+      align-items: center;
+      padding: 15px;
       margin-bottom: 10px;
       border-radius: 5px;
+      background-color: #f9f9f9;
+      transition: background-color 0.3s;
+    }
+    .tool:hover {
+      background-color: #efefef;
     }
     .bildgenerierung {
-      background-color: #f0f8ff;  
+      border-left: 5px solid #8bc34a;
     }
     .textgenerierung {
-      background-color: #f0fff0;
+      border-left: 5px solid #ff9800;  
     }
     .datenanalyse {
-      background-color: #fff0f5;   
+      border-left: 5px solid #f44336;
     }
     .personalisierung {
-      background-color: #fffff0;
+      border-left: 5px solid #2196f3;
     }
     .unternehmenstools {
-      background-color: #f5f5f5;
+      border-left: 5px solid #9c27b0;  
     }
     .button-group {
       display: flex;
@@ -56,77 +81,141 @@
       padding: 10px 20px;
       font-size: 16px;
       border: none;
-      background-color: #f0f0f0;
+      background-color: #e0e0e0;
       cursor: pointer;
       border-radius: 5px;
+      transition: background-color 0.3s;
     }
     .category-button:hover {
-      background-color: #e0e0e0;
+      background-color: #ccc;
     }
     .category-button.active {
-      background-color: #d0d0d0;
+      background-color: #333;
+      color: white;
+    }
+    .free-tag {
+      background-color: #4CAF50;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      margin-left: 10px;
+    }
+    .like-button {
+      background-color: #f2f2f2;
+      border: none;
+      color: #666;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-right: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+    .like-button:hover {
+      background-color: #e0e0e0;
     }
     .tool-description {
+      font-size: 0.9em;
+      color: #666;
+      margin-left: 15px;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.8em;
+    }
+    footer a {
+      color: white;
+    }
+    .like-count {
       font-size: 0.8em;
       color: #666;
-      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .category-count {
+      background-color: #888;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-size: 0.8em;
+      margin-left: 5px;
     }
   </style>
 </head>
 <body>
-  <h1>KI-Tools Suche</h1>
+  <header>
+    <h1>Finde die besten KI-Tools und sag uns, welche du am besten magst</h1>
+  </header>
   
-  <input type="text" id="searchInput" placeholder="Nach Tools suchen..." oninput="searchTools()">
+  <main>
+    <input type="text" id="searchInput" placeholder="Nach Tools suchen..." oninput="searchTools()">
 
-  <div class="button-group">
-    <button class="category-button active" onclick="filterCategory('all')">Alle</button>
-    <button class="category-button" onclick="filterCategory('bildgenerierung')">Bildgenerierung</button>
-    <button class="category-button" onclick="filterCategory('textgenerierung')">Textgenerierung</button>    
-    <button class="category-button" onclick="filterCategory('datenanalyse')">Datenanalyse</button>
-    <button class="category-button" onclick="filterCategory('personalisierung')">Personalisierung</button>
-    <button class="category-button" onclick="filterCategory('unternehmenstools')">Unternehmenstools</button>
-  </div>
+    <div class="button-group">
+      <button class="category-button active" onclick="filterCategory('all')">Alle <span class="category-count">0</span></button>
+      <button class="category-button" onclick="filterCategory('bildgenerierung')">Bildgenerierung <span class="category-count">0</span></button>
+      <button class="category-button" onclick="filterCategory('textgenerierung')">Textgenerierung <span class="category-count">0</span></button>    
+      <button class="category-button" onclick="filterCategory('datenanalyse')">Datenanalyse <span class="category-count">0</span></button>
+      <button class="category-button" onclick="filterCategory('personalisierung')">Personalisierung <span class="category-count">0</span></button>
+      <button class="category-button" onclick="filterCategory('unternehmenstools')">Unternehmenstools <span class="category-count">0</span></button>
+      <button class="category-button" onclick="filterFree()">Kostenlose Tools <span class="category-count">0</span></button>
+    </div>
 
-  <div class="category">  
-    <h2>Bildgenerierung</h2>
-    <div class="tool bildgenerierung">DALL-E <span class="tool-description">Detaillierte Bildgenerierung basierend auf Textbeschreibungen</span></div>
-    <div class="tool bildgenerierung">Midjourney <span class="tool-description">Atemberaubende Bilder mit künstlerischem Stil</span></div>
-    <div class="tool bildgenerierung">Stable Diffusion <span class="tool-description">Open-Source-Framework zur Erstellung fotorealistischer und künstlerischer Bilder</span></div>
-    <div class="tool bildgenerierung">Craiyon <span class="tool-description">KI-gestützte Bildgenerierung für Produktdesigns und Illustrationen</span></div>
-    <div class="tool bildgenerierung">Wombo Dream <span class="tool-description">Einzigartiger Kunststil und schnelle Bildgenerierung</span></div>
-  </div>
+    <div class="category">  
+      <h2>Bildgenerierung</h2>
+      <div class="tool bildgenerierung">
+        <button class="like-button" onclick="incrementLikeCount(this)">&#10084;</button>
+        <span class="like-count">0</span>&nbsp;&nbsp;
+        DALL-E <span class="free-tag">Kostenlos</span> <span class="tool-description">Detaillierte Bildgenerierung basierend auf Textbeschreibungen</span>
+      </div>
+    </div>
 
-  <div class="category">
-    <h2>Textgenerierung</h2>  
-    <div class="tool textgenerierung">GPT-3 <span class="tool-description">Fortschrittliches Sprachmodell für vielfältige Textgenerierungsaufgaben</span></div>
-    <div class="tool textgenerierung">ChatGPT <span class="tool-description">Leistungsstarker Chatbot mit umfangreichem Wissen und Konversationsfähigkeiten</span></div>
-    <div class="tool textgenerierung">Claude <span class="tool-description">KI-Assistent mit Spezialisierung auf kreatives Schreiben und Storytelling</span></div>
-    <div class="tool textgenerierung">Jasper.ai <span class="tool-description">Optimierte Textgenerierung für Marketing und SEO</span></div>
-    <div class="tool textgenerierung">Copy.ai <span class="tool-description">Automatisierte Erstellung von Werbetexten und Social-Media-Posts</span></div>
-  </div>
-   
-  <div class="category">
-    <h2>Datenanalyse</h2>
-    <div class="tool datenanalyse">TensorFlow <span class="tool-description">Leistungsstarke Open-Source-Bibliothek für maschinelles Lernen und Deep Learning</span></div>  
-    <div class="tool datenanalyse">Pandas <span class="tool-description">Effiziente Datenmanipulation und -analyse in Python</span></div>
-    <div class="tool datenanalyse">NumPy <span class="tool-description">Umfangreiche mathematische Funktionen für die Verarbeitung großer Arrays und Matrizen</span></div>
-    <div class="tool datenanalyse">BigML <span class="tool-description">Benutzerfreundliche Plattform für maschinelles Lernen und Predictive Analytics</span></div>
-    <div class="tool datenanalyse">Alteryx <span class="tool-description">Datenanalyse-Plattform mit Drag-and-Drop-Oberfläche für Datentransformation und -visualisierung</span></div>
-  </div>
+    <div class="category">
+      <h2>Textgenerierung</h2>  
+      <div class="tool textgenerierung">
+        <button class="like-button" onclick="incrementLikeCount(this)">&#10084;</button>
+        <span class="like-count">0</span>&nbsp;&nbsp;
+        GPT-3 <span class="tool-description">Fortschrittliches Sprachmodell für vielfältige Textgenerierungsaufgaben</span>
+      </div>
+    </div>
+     
+    <div class="category">
+      <h2>Datenanalyse</h2>
+      <div class="tool datenanalyse">
+        <button class="like-button" onclick="incrementLikeCount(this)">&#10084;</button>
+        <span class="like-count">0</span>&nbsp;&nbsp;
+        TensorFlow <span class="free-tag">Kostenlos</span> <span class="tool-description">Leistungsstarke Open-Source-Bibliothek für maschinelles Lernen und Deep Learning</span>
+      </div>
+    </div>
 
-  <div class="category">
-    <h2>Personalisierung</h2>
-    <div class="tool personalisierung">Replika <span class="tool-description">KI-gestützter Chatbot zur Simulation menschenähnlicher Konversationen</span></div>
-    <div class="tool personalisierung">LaMDA <span class="tool-description">Fortschrittliches Dialogsystem von Google mit beeindruckenden Sprachfähigkeiten</span></div>  
-    <div class="tool personalisierung">Humantic.ai <span class="tool-description">Plattform zur Generierung von psychologischen Profilen und Persönlichkeitsanalysen</span></div>
-  </div>
+    <div class="category">
+      <h2>Personalisierung</h2>
+      <div class="tool personalisierung">
+        <button class="like-button" onclick="incrementLikeCount(this)">&#10084;</button>
+        <span class="like-count">0</span>&nbsp;&nbsp;
+        Replika <span class="tool-description">KI-gestützter Chatbot zur Simulation menschenähnlicher Konversationen</span>
+      </div>
+    </div>
 
-  <div class="category">
-    <h2>Unternehmenstools</h2>
-    <div class="tool unternehmenstools">Hubspot <span class="tool-description">Umfassende CRM- und Marketingplattform mit KI-gestützten Funktionen</span></div>
-    <div class="tool unternehmenstools">Salesforce Einstein <span class="tool-description">KI-gestützte Funktionen für Vertrieb, Service und Marketing in der Salesforce-Plattform</span></div>
-    <div class="tool unternehmenstools">Grammarly Business <span class="tool-description">KI-basierte Schreibunterstützung und -optimierung für Unternehmen</span></div>
-  </div>
+    <div class="category">
+      <h2>Unternehmenstools</h2>
+      <div class="tool unternehmenstools">
+        <button class="like-button" onclick="incrementLikeCount(this)">&#10084;</button>
+        <span class="like-count">0</span>&nbsp;&nbsp;
+        Hubspot <span class="tool-description">Umfassende CRM- und Marketingplattform mit KI-gestützten Funktionen</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Impressum: David Rodriguez, Email: drmcdll@gmail.com, Postanschrift: Trepliner Weg 8C, 13509 Berlin</p>
+    <p><a href="#">Datenschutzerklärung</a></p>
+  </footer>
 
   <script>
     function searchTools() {
@@ -135,7 +224,7 @@
       
       for (let i = 0; i < tools.length; i++) {
         if (tools[i].textContent.toLowerCase().includes(input)) {
-          tools[i].style.display = "block";
+          tools[i].style.display = "flex";
         } else {
           tools[i].style.display = "none";                
         }
@@ -152,26 +241,69 @@
 
       if (selectedCategory === 'all') {
         for (let i = 0; i < tools.length; i++) {
-          tools[i].style.display = "block";
+          tools[i].style.display = "flex";
         }
         buttons[0].classList.add('active');
       } else {
         for (let i = 0; i < tools.length; i++) {
           if (tools[i].classList.contains(selectedCategory)) {
-            tools[i].style.display = "block";
+            tools[i].style.display = "flex";
           } else {
             tools[i].style.display = "none";
           }
         }
         
-        for (let i = 0; i < buttons.length; i++) {
-          if (buttons[i].textContent.toLowerCase() === selectedCategory) {
+        for (let i = 0; i < buttons.length - 1; i++) {
+          if (buttons[i].textContent.toLowerCase().includes(selectedCategory)) {
             buttons[i].classList.add('active');
             break;
           }
         }
       }
     }
+    
+    function filterFree() {
+      let tools = document.getElementsByClassName('tool');
+      let buttons = document.getElementsByClassName('category-button');
+
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+      }
+
+      for (let i = 0; i < tools.length; i++) {
+        if (tools[i].innerHTML.includes('Kostenlos')) {
+          tools[i].style.display = "flex";
+        } else {
+          tools[i].style.display = "none";
+        }
+      }
+      
+      buttons[buttons.length - 1].classList.add('active');
+    }
+
+    function incrementLikeCount(button) {
+      let likeCount = button.nextElementSibling;
+      likeCount.textContent = parseInt(likeCount.textContent) + 1;
+    }
+
+    function updateCategoryCounts() {
+      let categories = ['bildgenerierung', 'textgenerierung', 'datenanalyse', 'personalisierung', 'unternehmenstools'];
+      let totalCount = 0;
+
+      for (let i = 0; i < categories.length; i++) {
+        let tools = document.getElementsByClassName(categories[i]);
+        let count = tools.length;
+        document.querySelector(`.category-button[onclick="filterCategory('${categories[i]}')"] .category-count`).textContent = count;
+        totalCount += count;
+      }
+
+      let freeTools = document.querySelectorAll('.tool .free-tag').length;
+      document.querySelector('.category-button[onclick="filterFree()"] .category-count').textContent = freeTools;
+
+      document.querySelector('.category-button[onclick="filterCategory(\'all\')"] .category-count').textContent = totalCount;
+    }
+
+    updateCategoryCounts();
   </script>
 </body>
 </html>
